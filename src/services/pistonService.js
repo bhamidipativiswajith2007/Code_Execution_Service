@@ -17,8 +17,23 @@ export let execute=async(language,code,stdin="")=>{
         stdin
       }
     )
-    return res.data;
+    const {run}=res.data;
+    //return res.data;
+        return {
+        language:res.data.language,
+        version:res.data.version,
+        stdout:run.stdout,
+        stderr:run.stderr,
+        exitCode:run.code,
+        memory:run.memory,
+        cpuTime:run.cpu_time,
+        wallTime:run.wall_time
+     };
   } catch (error) {
-    throw new Error(error.response?.data?.message||"Failed to execute code");
+     console.log(error.response?.data);
+    console.log(error.message);
+    console.log(error);
+
+    throw error;
   }
 }
