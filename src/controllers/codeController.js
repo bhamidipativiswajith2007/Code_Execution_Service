@@ -1,7 +1,13 @@
+import { execute } from "../services/pistonService.js";
 export const runCode=async (req,res)=>{
-    res.status(200).json({
-        success:true,
-        message:"Run API Hit Successfully",
-        body:req.body
-    });
+    try {
+      let {language,code,stdin}=req.body;
+      let result=await execute(language,code,stdin);
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({
+        success:false,
+        message:error.message
+      })
+    }
 };
