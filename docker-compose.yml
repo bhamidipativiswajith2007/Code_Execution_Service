@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  piston:
+    image: ghcr.io/engineer-man/piston
+    container_name: piston
+    privileged: true
+    ports:
+      - "2000:2000"
+
+  code-execution-service:
+    build: .
+    container_name: code-execution-service
+
+    depends_on:
+      - piston
+
+    environment:
+      PORT: 3000
+      PISTON_URL: http://piston:2000
+
+    ports:
+      - "3000:3000"
